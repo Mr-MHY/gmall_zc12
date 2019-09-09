@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class ManageController {
+public class ManageController  {
 
     @Reference
     ManageService manageService;
@@ -83,5 +83,14 @@ public class ManageController {
         return manageService.getSpuList(catalog3Id);
     }
 
+    @GetMapping("spuImageList")
+    public List<SpuImage> getSpuImageList(String spuId){
+        return manageService.getSpuImageList(spuId);
+    }
+
+    @GetMapping("spuSaleAttrList")
+    public  List<SpuSaleAttr> getSpuSaleAttrList(String spuId){
+        return  manageService.getSpuSaleAttrList(spuId);
+    }
 
 }
