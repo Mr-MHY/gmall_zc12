@@ -5,6 +5,7 @@ package com.gmall.service;
 import com.gmall.bean.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManageService {
 
@@ -51,4 +52,9 @@ public interface ManageService {
     //保存skuinfo
     public void  saveSkuInfo(SkuInfo skuInfo);
 
+    SkuInfo getSkuInfo(String skuId);
+
+    List<SpuSaleAttr> getSpuSaleAttrListCheckSku(String skuId, String spuId);
+
+    Map getSkuValueIdsMap(String spuId);
 }
