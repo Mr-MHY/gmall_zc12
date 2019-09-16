@@ -26,7 +26,7 @@ public class ItemController {
         List<SpuSaleAttr> spuSaleAttrList = manageService.getSpuSaleAttrListCheckSku(skuId, skuInfo.getSpuId());
         request.setAttribute("skuInfo",skuInfo);
         request.setAttribute("spuSaleAttrList",spuSaleAttrList);
-        //得到属性组合与skuid的映射关系 ，用于页面根据属性组合进行跳转
+
         Map skuValueIdsMap = manageService.getSkuValueIdsMap(skuInfo.getSpuId());
         String valuesSkuJson = JSON.toJSONString(skuValueIdsMap);
         request.setAttribute("valuesSkuJson",valuesSkuJson);
