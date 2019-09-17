@@ -51,10 +51,12 @@ public interface ManageService {
 
     //保存skuinfo
     public void  saveSkuInfo(SkuInfo skuInfo);
-
-    SkuInfo getSkuInfo(String skuId);
-
-    List<SpuSaleAttr> getSpuSaleAttrListCheckSku(String skuId, String spuId);
-
-    Map getSkuValueIdsMap(String spuId);
+    //查询skuInfo
+    public SkuInfo getSkuInfo(String skuId);
+    //根据spuid查询销售属性,选中传入的sku涉及的销售属性
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckSku(String skuId, String spuId);
+    //根据spuid查询已有的sku涉及的销售属性清单
+    public Map getSkuValueIdsMap(String spuId);
+    //根据多个属性值查询平台属性
+    public List<BaseAttrInfo>getAttrList(List attrValueIdList);
 }

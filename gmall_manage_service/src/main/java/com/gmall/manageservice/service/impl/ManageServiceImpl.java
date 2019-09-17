@@ -254,6 +254,10 @@ public class ManageServiceImpl implements ManageService {
         List<SkuSaleAttrValue> skuSaleAttrValueList = skuSaleAttrValueMapper.select(skuSaleAttrValue);
         skuInfo.setSkuSaleAttrValueList(skuSaleAttrValueList);
 
+        SkuAttrValue skuAttrValue = new SkuAttrValue();
+        skuAttrValue.setSkuId(skuId);
+        List<SkuAttrValue> skuAttrValueList = skuAttrValueMapper.select(skuAttrValue);
+        skuInfo.setSkuAttrValueList(skuAttrValueList);
         return skuInfo;
     }
 
