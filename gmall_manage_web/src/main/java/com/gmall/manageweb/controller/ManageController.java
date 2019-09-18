@@ -3,15 +3,20 @@ package com.gmall.manageweb.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 import com.gmall.bean.*;
+import com.gmall.service.ListService;
 import com.gmall.service.ManageService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 public class ManageController  {
 
+    @Reference
+    ListService listService;
     @Reference
     ManageService manageService;
 
@@ -93,4 +98,29 @@ public class ManageController  {
         return  manageService.getSpuSaleAttrList(spuId);
     }
 
+    public  String onSaleBySpu(String spuId){
+        // 根据spu 把其下所有sku上架
+        return null;
+    }
+
+    @PostMapping("onSale")
+    public  String onSale(@RequestParam("skuId") String skuId){
+
+        SkuInfo skuInfo = manageService.getSkuInfo(skuId);
+
+        SkuLsInfo skuLsInfo = new SkuLsInfo();
+
+        try {
+            BeanUtils.copyProperties(skuLsInfo,skuInfo);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        //
+        listService.saveSkuLsInfo(skuLsInfo);
+
+        return "success";
+
+    }
 }
