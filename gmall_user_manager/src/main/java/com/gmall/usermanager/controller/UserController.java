@@ -1,18 +1,20 @@
 package com.gmall.usermanager.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.gmall.bean.UserInfo;
+
 import com.gmall.service.UserService;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
 
-    @Autowired
+    @Reference
     UserService userService;
 
 
@@ -50,4 +52,6 @@ public class UserController {
         return userService.getUserInfoById(id);
 
     }
+
+
 }

@@ -117,7 +117,7 @@ public class ManageController  {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        //
+
         listService.saveSkuLsInfo(skuLsInfo);
 
         return "success";

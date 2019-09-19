@@ -11,4 +11,7 @@ public interface UserService {
     void updateUserByName(String name,UserInfo userInfo);
     void delUser(UserInfo userInfo);
     UserInfo getUserInfoById(String id);
+    UserInfo login(UserInfo userInfo);
+
+    UserInfo verify(String userId);
 }
