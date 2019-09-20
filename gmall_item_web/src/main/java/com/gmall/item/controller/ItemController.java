@@ -6,6 +6,7 @@ import com.gmall.bean.SkuInfo;
 import com.gmall.bean.SpuSaleAttr;
 import com.gmall.service.ListService;
 import com.gmall.service.ManageService;
+import com.gmall.web.config.LoginRequire;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class ItemController {
         request.setAttribute("valuesSkuJson",valuesSkuJson);
 
         listService.incrHotScore(skuId);
+        request.getAttribute("userId");
         return   "item";
     }
 }

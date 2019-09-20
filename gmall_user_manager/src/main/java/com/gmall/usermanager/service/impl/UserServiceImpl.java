@@ -63,33 +63,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo login(UserInfo userInfo) {
-        String password = DigestUtils.md5DigestAsHex(userInfo.getPasswd().getBytes());
-        userInfo.setPasswd(password);
-        UserInfo info = userMapper.selectOne(userInfo);
+        // 1  比对数据库  用户名和密码
+        String passwd = userInfo.getPasswd();
+        String passwdMd5 = DigestUtils.md5DigestAsHex(passwd.getBytes());
+        userInfo.setPasswd(passwdMd5);
 
-        if (info!=null){
-            // 获得到redis ,将用户存储到redis中
-            //type key value
+        UserInfo userInfoExists = userMapper.selectOne(userInfo);
+
+        if(userInfoExists!=null){
+            // 2 加载缓存
             Jedis jedis = redisUtil.getJedis();
-            jedis.setex(userKey_prefix+info.getId()+userinfoKey_suffix,userKey_timeOut, JSON.toJSONString(info));
+            //   type String     key  user:1011:info       value    userInfoJson
+            String userKey=userKey_prefix+userInfoExists.getId()+userinfoKey_suffix;
+            String userInfoJson = JSON.toJSONString(userInfoExists);
+            jedis.setex(userKey,userKey_timeOut,userInfoJson);
             jedis.close();
-            return  info;
+            return  userInfoExists;
         }
-        return null;
+
+        return null ;
     }
 
-    public UserInfo verify(String userId){
-        // 去缓存中查询是否有redis
+    @Override
+    public Boolean verify(String userId) {
         Jedis jedis = redisUtil.getJedis();
-        String key = userKey_prefix+userId+userinfoKey_suffix;
-        String userJson = jedis.get(key);
-        // 延长时效
-        jedis.expire(key,userKey_timeOut);
-        if (userJson!=null){
-            UserInfo userInfo = JSON.parseObject(userJson, UserInfo.class);
-            return  userInfo;
+        String userKey=userKey_prefix+userId+userinfoKey_suffix;
+        Boolean isLogin = jedis.exists(userKey);
+        if(isLogin){  //如果经过验证，延长用户使用时间
+            jedis.expire(userKey,userKey_timeOut);
         }
-        return  null;
+
+        jedis.close();
+
+        return isLogin;
     }
 
 
