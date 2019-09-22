@@ -19,8 +19,8 @@ import java.util.Map;
 @Controller
 public class ItemController {
 
-    @Reference
-    ListService listService;
+//    @Reference
+//    ListService listService;
     @Reference
     ManageService manageService;
 
@@ -36,7 +36,7 @@ public class ItemController {
         String valuesSkuJson = JSON.toJSONString(skuValueIdsMap);
         request.setAttribute("valuesSkuJson",valuesSkuJson);
 
-        listService.incrHotScore(skuId);
+        //listService.incrHotScore(skuId);
         request.getAttribute("userId");
         return   "item";
     }

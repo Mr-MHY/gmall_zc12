@@ -123,7 +123,7 @@ public class ListServiceImpl implements ListService{
         searchSourceBuilder.sort("hotScore", SortOrder.DESC);
         System.out.println(searchSourceBuilder.toString());
         Search.Builder searchBuilder = new Search.Builder(searchSourceBuilder.toString());
-        Search search = searchBuilder.addIndex("gmall_sku_info").addType("_doc").build();
+        Search search = searchBuilder.addIndex("gmall_sku_info").addType("doc").build();
         SkuLsResult skuLsResult = new SkuLsResult();
 
         try {

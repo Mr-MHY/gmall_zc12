@@ -1,5 +1,6 @@
 package com.gmall.service;
 
+import com.gmall.bean.UserAddress;
 import com.gmall.bean.UserInfo;
 
 import java.util.List;
@@ -13,5 +14,6 @@ public interface UserService {
     UserInfo getUserInfoById(String id);
     UserInfo login(UserInfo userInfo);
 
-    UserInfo verify(String userId);
+    Boolean verify(String userId);
+    public  List<UserAddress> getUserAddressList(String userId);
 }
