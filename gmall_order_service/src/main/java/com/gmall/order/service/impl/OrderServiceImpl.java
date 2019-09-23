@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void saveOrder(OrderInfo orderInfo) {
+    public String saveOrder(OrderInfo orderInfo) {
 
         orderInfoMapper.insertSelective(orderInfo);
 
@@ -40,7 +40,17 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setOrderId(orderInfo.getId());
             orderDetailMapper.insertSelective(orderDetail);
         }
+        return orderInfo.getId();
+    }
 
+    @Override
+    public OrderInfo getOrderInfo(String orderId) {
+        OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderId);
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrderId(orderId);
+        List<OrderDetail> orderDetailList = orderDetailMapper.select(orderDetail);
+        orderInfo.setOrderDetailList(orderDetailList);
+        return orderInfo;
     }
 
 
@@ -48,9 +58,9 @@ public class OrderServiceImpl implements OrderService {
     public String genToken(String userId) {
         //token  type   String  key   user:10201:trade_code  value token
         String token = UUID.randomUUID().toString();
-        String tokenKey="user:"+userId+":trade_code";
+        String tokenKey = "user:" + userId + ":trade_code";
         Jedis jedis = redisUtil.getJedis();
-        jedis.setex(tokenKey,10*60,token);
+        jedis.setex(tokenKey, 10 * 60, token);
         jedis.close();
 
         return token;
@@ -58,18 +68,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean verifyToken(String userId, String token) {
-        String tokenKey="user:"+userId+":trade_code";
+        String tokenKey = "user:" + userId + ":trade_code";
         Jedis jedis = redisUtil.getJedis();
         String tokenExists = jedis.get(tokenKey);
         jedis.watch(tokenKey);
         Transaction transaction = jedis.multi();
-        if(tokenExists!=null&&tokenExists.equals(token)){
+        if (tokenExists != null && tokenExists.equals(token)) {
             transaction.del(tokenKey);
         }
         List<Object> list = transaction.exec();
-        if(list!=null&&list.size()>0&&(Long)list.get(0)==1L){
+        if (list != null && list.size() > 0 && (Long) list.get(0) == 1L) {
             return true;
-        }else{
+        } else {
             return false;
         }
 

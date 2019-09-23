@@ -70,12 +70,19 @@ public class OrderInfo implements Serializable {
     @Column
     private String outTradeNo;
 
-    public void sumTotalAmount(){
-        BigDecimal totalAmount=new BigDecimal("0");
+    public void sumTotalAmount() {
+        BigDecimal totalAmount = new BigDecimal("0");
         for (OrderDetail orderDetail : orderDetailList) {
-            totalAmount= totalAmount.add(orderDetail.getOrderPrice().multiply(new BigDecimal(orderDetail.getSkuNum())));
+            totalAmount = totalAmount.add(orderDetail.getOrderPrice().multiply(new BigDecimal(orderDetail.getSkuNum())));
         }
-        this.totalAmount=  totalAmount;
+        this.totalAmount = totalAmount;
     }
 
+    public String genSubject() {
+        if (orderDetailList.size()>0){
+            OrderDetail orderDetail = orderDetailList.get(0);
+            return orderDetail.getSkuName()+"等"+orderDetailList.size()+"件商品";
+        }
+        return null;
+    }
 }
