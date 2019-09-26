@@ -80,7 +80,9 @@ public class PaymentInfoController {
         paymentInfo.setPaymentStatus(PaymentStatus.UNPAID);
         paymentInfo.setSubject(subject);
         paymentInfo.setTotalAmount(totalAmount);
+
         paymentInfoService.savePaymentInfo(paymentInfo);
+        paymentInfoService.sendDelayPaymentResult(outTradeNo,20L,3);
         return submitHtml;
     }
 
@@ -92,6 +94,11 @@ public class PaymentInfoController {
     //5     返回 success 标志
     @PostMapping("/alipay/callback/notify")
     public String notify(@RequestParam Map<String, String> paramMap, HttpServletRequest request) throws AlipayApiException {
+
+        if (1==1){
+            return "";
+        }
+
         String sign = paramMap.get("sign");
         boolean ifPass = AlipaySignature.rsaCheckV1(paramMap, AlipayConfig.alipay_public_key, "utf-8", AlipayConfig.sign_type);
         if (ifPass) {

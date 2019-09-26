@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 
 import com.gmall.bean.OrderDetail;
 import com.gmall.bean.OrderInfo;
+import com.gmall.bean.ProcessStatus;
 import com.gmall.order.mapper.OrderDetailMapper;
 import com.gmall.order.mapper.OrderInfoMapper;
 import com.gmall.service.OrderService;
@@ -83,6 +84,19 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
 
+    }
+
+    @Override
+    public void updateStatus(String orderId, ProcessStatus processStatus, OrderInfo... orderInfos) {
+        OrderInfo orderInfo = new OrderInfo();
+        if (orderInfos != null && orderInfos.length > 0) {
+            orderInfo = orderInfos[0];
+        }
+        orderInfo.setProcessStatus(processStatus);
+        orderInfo.setId(orderId);
+        orderInfo.setOrderStatus(processStatus.getOrderStatus());
+
+        orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
     }
 
 }

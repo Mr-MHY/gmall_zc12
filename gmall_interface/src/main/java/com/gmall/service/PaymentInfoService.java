@@ -11,4 +11,7 @@ public interface PaymentInfoService {
     public void updatePaymentInfoByOutTradeNo(String outTradeNo,PaymentInfo paymentInfo);
 
     public  void sendPaymentToOrder(String orderId,String result) ;
+
+    //发送延迟支付结果
+    public void sendDelayPaymentResult(String outTradeNo,Long delaySec ,Integer checkCount);
 }

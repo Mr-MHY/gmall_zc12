@@ -57,6 +57,9 @@ public class WareOrderTask {
     private String taskComment;
 
     @Transient
+    private String taskStatusComment;
+
+    @Transient
     private List<WareOrderTaskDetail> details;
 
     public String getId() {

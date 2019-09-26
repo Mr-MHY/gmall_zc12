@@ -1,6 +1,7 @@
 package com.gmall.service;
 
 import com.gmall.bean.OrderInfo;
+import com.gmall.bean.ProcessStatus;
 
 public interface OrderService {
 
@@ -13,7 +14,7 @@ public interface OrderService {
 
     public  boolean  verifyToken(String userId,String token);
 
-
+    public  void updateStatus(String orderId, ProcessStatus processStatus, OrderInfo... orderInfo );
 
 }
 
